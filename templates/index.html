@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COVID Detection</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='Virus Thumbnail.jpeg') }}">
+
+    <!-- Bootstrap CDN for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 500px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .preview-container {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .preview-container img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>COVID-19 Detection</h1>
+        <p class="text-muted">Upload a CT Scan image to predict if it contains COVID-19.</p>
+        
+        <form action="/predict" method="POST" enctype="multipart/form-data" class="mt-4">
+            <div class="mb-3">
+                <input class="form-control" type="file" name="file" id="fileInput" required onchange="previewImage(event)">
+            </div>
+
+            <!-- Image preview section -->
+            <div class="preview-container" id="previewContainer">
+                <h6>Selected Image:</h6>
+                <img id="imagePreview" alt="Image Preview">
+            </div>
+
+            <button type="submit" class="btn btn-custom mt-3">Upload & Predict</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    document.getElementById('imagePreview').src = reader.result;
+                    document.getElementById('previewContainer').style.display = "block";
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
